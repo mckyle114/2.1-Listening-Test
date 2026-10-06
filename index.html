@@ -112,6 +112,27 @@
     font-size: .9rem;
     line-height: 1.4;
   }
+
+  .teacher-reset {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 9999;
+    background: transparent;
+    color: #777;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    padding: 7px 10px;
+    font-size: .75rem;
+    font-weight: 600;
+    opacity: .55;
+  }
+
+  .teacher-reset:hover {
+    opacity: 1;
+    background: #fff;
+  }
+
 </style>
 </head>
 
@@ -395,6 +416,26 @@
   audio.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
   audio.disableRemotePlayback = true;
 
+  const teacherResetBtn = document.getElementById("teacherResetBtn");
+
+  teacherResetBtn.addEventListener("click", () => {
+    const password = window.prompt("Teacher password:");
+
+    if (password === null) return;
+
+    if (password === "1438") {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(AUDIO_CHECK_KEY);
+      } catch (e) {}
+
+      window.alert("Test reset complete.");
+      window.location.reload();
+    } else {
+      window.alert("Incorrect password.");
+    }
+  });
+
   readState();
 
   // If the student already passed the sound check on this browser, don't
@@ -406,5 +447,8 @@
   }
 })();
 </script>
+
+<button id="teacherResetBtn" class="teacher-reset" type="button">Teacher Reset</button>
+
 </body>
 </html>
